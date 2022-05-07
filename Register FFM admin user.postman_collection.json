@@ -1,0 +1,212 @@
+{
+	"info": {
+		"_postman_id": "da159321-442e-460c-b5cc-cd5332045823",
+		"name": "Register FFM admin user",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Positive Testing",
+			"item": [
+				{
+					"name": "1.0 Create FFM platform administrative user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Status code validation \r",
+									"pm.test(\"Registered Administrative User Successfully\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 2000ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Status code name has string\", function () {\r",
+									"    pm.response.to.have.status(\"CREATED\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"message\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"success\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Content-Type is present\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Date is present\", function () {\r",
+									"    pm.response.to.have.header(\"Date\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "accept",
+								"value": "*/*"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"{{$randomEmail}}\",\r\n    \"password\": \"user1122\",\r\n    \"firstname\": \"Harry\",\r\n    \"lastname\": \"Kane\",\r\n    \"username\": \"{{$randomUserName}}\"\r\n}\r\n\r\n"
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/v1/field-force/auth/register-admin-user",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"field-force",
+								"auth",
+								"register-admin-user"
+							]
+						},
+						"description": "**Date**: 7/5/2022\n\n**Objective**: As a tester when I input valid information (email, password, firstname, lastname, and username) it should register successfully.\n\n**Expected Result**: It should register successfully, give the success message and get the \"201 Created\" status code.\n\n**Actual Result**: It registered the information successfully, gave the success message and got the \"201 Created\" status code.\n\n**Test Status**: Passed\n\n**SE Name**: Shahed\n\n**PO Name**: Pranto\n\n**Reviewer Name**: Pranto"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Negative Testing",
+			"item": [
+				{
+					"name": "1.1 Create FFM platform administrative user without email address",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Without email it should not create\", function () {\r",
+									"    pm.response.to.have.status(403);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "accept",
+								"value": "*/*"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"\",\r\n    \"password\": \"user1122\",\r\n    \"firstname\": \"Harry\",\r\n    \"lastname\": \"Kane\",\r\n    \"username\": \"user100\"\r\n}"
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/v1/field-force/auth/register-admin-user",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"field-force",
+								"auth",
+								"register-admin-user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "1.2 Create FFM platform administrative user without email address and password",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "accept",
+								"value": "*/*"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"\",\r\n    \"password\": \"\",\r\n    \"firstname\": \"Harry\",\r\n    \"lastname\": \"Kane\",\r\n    \"username\": \"user100\"\r\n}"
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/v1/field-force/auth/register-admin-user",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"field-force",
+								"auth",
+								"register-admin-user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "1.3 Create FFM platform administrative user with wrong HTTP method",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "accept",
+								"value": "*/*"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"\",\r\n    \"password\": \"\",\r\n    \"firstname\": \"Harry\",\r\n    \"lastname\": \"Kane\",\r\n    \"username\": \"user100\"\r\n}"
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/v1/field-force/auth/register-admin-user",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"field-force",
+								"auth",
+								"register-admin-user"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
